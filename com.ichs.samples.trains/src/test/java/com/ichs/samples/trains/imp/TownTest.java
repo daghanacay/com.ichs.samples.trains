@@ -16,7 +16,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.ichs.samples.trains.IRoad;
 import com.ichs.samples.trains.ITown;
-import com.ichs.samples.trains.exception.EntityAlreadyExists;
+import com.ichs.samples.trains.exception.EntityAlreadyExistsException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TownTest {
@@ -65,7 +65,7 @@ public class TownTest {
 
 	@SuppressWarnings("null")
 	@Test
-	public void testAddArrivingRoadNonExistingRoad() throws EntityAlreadyExists {
+	public void testAddArrivingRoadNonExistingRoad() throws EntityAlreadyExistsException {
 		// Set up
 		when(this.mockRoadOne.getOrigin()).thenReturn(this.mockTownOne);
 		// Execute
@@ -78,8 +78,8 @@ public class TownTest {
 	}
 
 	@SuppressWarnings("null")
-	@Test(expected = EntityAlreadyExists.class)
-	public void testAddArrivingRoadExistingRoad() throws EntityAlreadyExists {
+	@Test(expected = EntityAlreadyExistsException.class)
+	public void testAddArrivingRoadExistingRoad() throws EntityAlreadyExistsException {
 		// Execute
 		this.classUnderTest.addArrivingRoad(this.mockRoadOne);
 		this.classUnderTest.addArrivingRoad(this.mockRoadOne);
@@ -87,7 +87,7 @@ public class TownTest {
 
 	@SuppressWarnings("null")
 	@Test
-	public void testAddDepartingRoadNonExistingRoad() throws EntityAlreadyExists {
+	public void testAddDepartingRoadNonExistingRoad() throws EntityAlreadyExistsException {
 		// Set up
 		when(this.mockRoadOne.getDestination()).thenReturn(this.mockTownOne);
 		// Execute
@@ -100,8 +100,8 @@ public class TownTest {
 	}
 
 	@SuppressWarnings("null")
-	@Test(expected = EntityAlreadyExists.class)
-	public void testAddDepartingRoadExistingRoad() throws EntityAlreadyExists {
+	@Test(expected = EntityAlreadyExistsException.class)
+	public void testAddDepartingRoadExistingRoad() throws EntityAlreadyExistsException {
 		// Execute
 		this.classUnderTest.addDepartingRoad(this.mockRoadOne);
 		this.classUnderTest.addDepartingRoad(this.mockRoadOne);
@@ -109,7 +109,7 @@ public class TownTest {
 
 	@SuppressWarnings("null")
 	@Test
-	public void testGetConnectedCitiesFrom() throws EntityAlreadyExists {
+	public void testGetConnectedCitiesFrom() throws EntityAlreadyExistsException {
 		// Set up
 		when(this.mockRoadOne.getOrigin()).thenReturn(this.mockTownOne);
 		// Execute
@@ -120,7 +120,7 @@ public class TownTest {
 
 	@SuppressWarnings("null")
 	@Test
-	public void testGetConnectedCitiesTo() throws EntityAlreadyExists {
+	public void testGetConnectedCitiesTo() throws EntityAlreadyExistsException {
 		// Set up
 		when(this.mockRoadOne.getDestination()).thenReturn(this.mockTownOne);
 		// Execute
@@ -145,7 +145,7 @@ public class TownTest {
 
 	@SuppressWarnings("null")
 	@Test
-	public void testEqualsWithDifferentRoads() throws EntityAlreadyExists {
+	public void testEqualsWithDifferentRoads() throws EntityAlreadyExistsException {
 		final ITown firstTown = new Town("townOne");
 		final ITown secondTown = new Town("townOne");
 		secondTown.addArrivingRoad(this.mockRoadOne);

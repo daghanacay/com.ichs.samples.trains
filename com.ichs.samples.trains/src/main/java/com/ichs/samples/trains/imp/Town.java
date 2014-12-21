@@ -8,7 +8,8 @@ import org.eclipse.jdt.annotation.Nullable;
 
 import com.ichs.samples.trains.IRoad;
 import com.ichs.samples.trains.ITown;
-import com.ichs.samples.trains.exception.EntityAlreadyExists;
+import com.ichs.samples.trains.exception.EntityAlreadyExistsException;
+import com.ichs.samples.trains.exception.ErrorCodeEnum;
 
 @NonNullByDefault
 final public class Town implements ITown {
@@ -43,21 +44,21 @@ final public class Town implements ITown {
 		return this.arrivingRoadList;
 	}
 
-	public void addArrivingRoad(final IRoad arrivingRoad) throws EntityAlreadyExists {
+	public void addArrivingRoad(final IRoad arrivingRoad) throws EntityAlreadyExistsException {
 		if (!this.arrivingRoadList.contains(arrivingRoad)) {
 			this.arrivingRoadList.add(arrivingRoad);
 			this.connectedCitiesFromList.add(arrivingRoad.getOrigin());
 		}else{
-			throw new EntityAlreadyExists("Arriving Road is already in the list");
+			throw new EntityAlreadyExistsException("Arriving Road is already in the list", ErrorCodeEnum.e1004);
 		}
 	}
 
-	public void addDepartingRoad(final IRoad departingRoad) throws EntityAlreadyExists {
+	public void addDepartingRoad(final IRoad departingRoad) throws EntityAlreadyExistsException {
 		if (!this.departingRoadList.contains(departingRoad)) {
 			this.departingRoadList.add(departingRoad);
 			this.connectedCitiesToList.add(departingRoad.getDestination());
 		}else{
-			throw new EntityAlreadyExists("Departing Road is already in the list");
+			throw new EntityAlreadyExistsException("Departing Road is already in the list", ErrorCodeEnum.e1004);
 		}
 	}
 

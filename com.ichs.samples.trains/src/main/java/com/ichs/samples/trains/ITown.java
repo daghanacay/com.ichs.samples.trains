@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
-import com.ichs.samples.trains.exception.EntityAlreadyExists;
+import com.ichs.samples.trains.exception.EntityAlreadyExistsException;
 
 /**
  * Represents a town in the domain. They have unique name
@@ -60,16 +60,16 @@ public interface ITown {
 	 * Adds an arriving road
 	 *
 	 * @param arrivingRoad
-	 * @throws EntityAlreadyExists
+	 * @throws EntityAlreadyExistsException
 	 */
-	void addArrivingRoad(IRoad arrivingRoad) throws EntityAlreadyExists;
+	void addArrivingRoad(IRoad arrivingRoad) throws EntityAlreadyExistsException;
 
 	/**
 	 * Adds a departing road
 	 *
 	 * @param departingRoad
-	 * @throws EntityAlreadyExists
+	 * @throws EntityAlreadyExistsException
 	 */
-	void addDepartingRoad(IRoad departingRoad) throws EntityAlreadyExists;
+	void addDepartingRoad(IRoad departingRoad) throws EntityAlreadyExistsException;
 
 }
