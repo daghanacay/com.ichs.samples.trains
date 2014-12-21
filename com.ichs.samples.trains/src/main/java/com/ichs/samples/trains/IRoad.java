@@ -1,5 +1,7 @@
 package com.ichs.samples.trains;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * Roads connect two TownNode s and there can be only one road with a given GID.
  * Start and end towns of a read cannot be null and cannot be same
@@ -7,6 +9,7 @@ package com.ichs.samples.trains;
  * @author daghan
  *
  */
+@NonNullByDefault
 public interface IRoad {
 
 	/**
@@ -14,14 +17,14 @@ public interface IRoad {
 	 *
 	 * @return
 	 */
-	ITownNode getOrigin();
+	ITown getOrigin();
 
 	/**
 	 * returns the destination of this road
 	 *
 	 * @return
 	 */
-	ITownNode getDestination();
+	ITown getDestination();
 
 	/**
 	 * returns the distance of this road
