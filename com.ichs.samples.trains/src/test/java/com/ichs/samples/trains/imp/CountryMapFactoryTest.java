@@ -27,8 +27,8 @@ public class CountryMapFactoryTest {
     final MapAggregate result = this.classUnderTest
         .createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
     assertNotNull(result);
-    assertEquals(5, result.getNumberOfCities());
-    assertEquals(9, result.getNumberOfRoad());
+    assertEquals(5, result.getNumberOfTowns());
+    assertEquals(9, result.getNumberOfRoads());
   }
 
   @Test
@@ -37,8 +37,8 @@ public class CountryMapFactoryTest {
     final MapAggregate result = this.classUnderTest
         .createMap("AB5,BC4,CD8,DC8,DE6,AD5,CE2, EB3 ,AE7");
     assertNotNull(result);
-    assertEquals(5, result.getNumberOfCities());
-    assertEquals(9, result.getNumberOfRoad());
+    assertEquals(5, result.getNumberOfTowns());
+    assertEquals(9, result.getNumberOfRoads());
   }
 
   @Test(expected = AssertionError.class)

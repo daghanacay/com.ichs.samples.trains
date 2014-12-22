@@ -5,6 +5,7 @@ import org.eclipse.jdt.annotation.Nullable;
 
 import com.ichs.samples.trains.IRoad;
 import com.ichs.samples.trains.ITown;
+
 @NonNullByDefault
 final public class Road implements IRoad {
 
@@ -18,14 +19,17 @@ final public class Road implements IRoad {
 		this.distance = distance;
 	}
 
+	@Override
 	public ITown getOrigin() {
 		return this.originTown;
 	}
 
+	@Override
 	public ITown getDestination() {
 		return this.destinationTown;
 	}
 
+	@Override
 	public double getDistance() {
 		return this.distance;
 	}
@@ -34,8 +38,10 @@ final public class Road implements IRoad {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((this.destinationTown == null) ? 0 : this.destinationTown.hashCode());
+		result = prime
+				* result
+				+ ((this.destinationTown == null) ? 0 : this.destinationTown
+						.hashCode());
 		result = prime * result
 				+ ((this.originTown == null) ? 0 : this.originTown.hashCode());
 		return result;
@@ -60,6 +66,13 @@ final public class Road implements IRoad {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return String.format(
+				"Origin town: %s, Destination town: %s, Distance: %.0f",
+				this.originTown.getName(), this.destinationTown.getName(), this.distance);
 	}
 
 }

@@ -20,69 +20,80 @@ import com.ichs.samples.trains.ITown;
 @RunWith(MockitoJUnitRunner.class)
 public class RouteTest {
 
-  @Mock
-  private ITown mockTown1, mockTown2, mockTown3, mockTown4, mockTown5;
+	@Mock
+	private ITown mockTown1, mockTown2, mockTown3, mockTown4, mockTown5;
 
-  @Mock
-  private IRoad mockRoad1, mockRoad2, mockRoad3, mockRoad4;
-  List<IRoad> roadList;
-  List<ITown> townList;
+	@Mock
+	private IRoad mockRoad1, mockRoad2, mockRoad3, mockRoad4;
+	List<IRoad> roadList;
+	List<ITown> townList;
 
-  IRoute classUnderTest = new Route();
+	IRoute classUnderTest = new Route();
 
-  @Before
-  public void test() {
-    townList = new ArrayList<ITown>() {
-      {
-        add(mockTown1);
-        add(mockTown2);
-        add(mockTown3);
-        add(mockTown4);
-      }
-    };
+	@Before
+	public void setUp() {
+		when(this.mockTown1.getName()).thenReturn("A");
+		when(this.mockTown2.getName()).thenReturn("B");
+		when(this.mockTown3.getName()).thenReturn("C");
+		when(this.mockTown4.getName()).thenReturn("D");
 
-    when(mockRoad1.getDistance()).thenReturn(1.0);
-    when(mockRoad2.getDistance()).thenReturn(10.0);
-    when(mockRoad3.getDistance()).thenReturn(4.0);
+		this.townList = new ArrayList<ITown>() {
+			{
+				add(RouteTest.this.mockTown1);
+				add(RouteTest.this.mockTown2);
+				add(RouteTest.this.mockTown3);
+				add(RouteTest.this.mockTown4);
+			}
+		};
 
-    roadList = new ArrayList<IRoad>() {
-      {
-        add(mockRoad1);
-        add(mockRoad2);
-        add(mockRoad3);
-      }
-    };
-  }
+		when(this.mockRoad1.getDistance()).thenReturn(1.0);
+		when(this.mockRoad2.getDistance()).thenReturn(10.0);
+		when(this.mockRoad3.getDistance()).thenReturn(4.0);
 
-  @Test
-  public void testAddTowns() {
-    classUnderTest.addTowns(townList);
-    assertEquals(classUnderTest.getTowns().size(), 4);
-    assertTrue(classUnderTest.getTowns().contains(mockTown1));
-  }
+		this.roadList = new ArrayList<IRoad>() {
+			{
+				add(RouteTest.this.mockRoad1);
+				add(RouteTest.this.mockRoad2);
+				add(RouteTest.this.mockRoad3);
+			}
+		};
+	}
 
-  @Test(expected=UnsupportedOperationException.class)
-  public void testChangeTownList() {
-    classUnderTest.addTowns(townList);
-    classUnderTest.getTowns().add(mockTown5);
-  }
+	@Test
+	public void testAddTowns() {
+		this.classUnderTest.addTowns(this.townList);
+		assertEquals(this.classUnderTest.getTowns().size(), 4);
+		assertTrue(this.classUnderTest.getTowns().contains(this.mockTown1));
+	}
 
-  @Test
-  public void testAddRoads() {
-    classUnderTest.addRoads(roadList);
-    assertEquals(classUnderTest.getRoads().size(), 3);
-    assertTrue(classUnderTest.getRoads().contains(mockRoad1));
-  }
+	@Test(expected = UnsupportedOperationException.class)
+	public void testChangeTownList() {
+		this.classUnderTest.addTowns(this.townList);
+		this.classUnderTest.getTowns().add(this.mockTown5);
+	}
 
-  @Test(expected=UnsupportedOperationException.class)
-  public void testChangeRoadsList() {
-    classUnderTest.addRoads(roadList);
-    classUnderTest.getRoads().add(mockRoad4);
-  }
+	@Test
+	public void testAddRoads() {
+		this.classUnderTest.addRoads(this.roadList);
+		assertEquals(this.classUnderTest.getRoads().size(), 3);
+		assertTrue(this.classUnderTest.getRoads().contains(this.mockRoad1));
+	}
 
-  @Test
-  public void testDistance() {
-    classUnderTest.addRoads(roadList);
-    assertEquals(classUnderTest.getDistance(), 15D, 0);
-  }
+	@Test(expected = UnsupportedOperationException.class)
+	public void testChangeRoadsList() {
+		this.classUnderTest.addRoads(this.roadList);
+		this.classUnderTest.getRoads().add(this.mockRoad4);
+	}
+
+	@Test
+	public void testDistance() {
+		this.classUnderTest.addRoads(this.roadList);
+		assertEquals(this.classUnderTest.getDistance(), 15D, 0);
+	}
+
+	@Test
+	public void testToString() {
+		this.classUnderTest.addTowns(this.townList);
+		assertEquals("A-B-C-D Distance: 0.0", this.classUnderTest.toString());
+	}
 }

@@ -152,4 +152,9 @@ public class TownTest {
 		secondTown.addDepartingRoad(this.mockRoadTwo);
 		assertEquals(firstTown, secondTown);
 	}
+
+	@Test
+	public void testToString(){
+		assertEquals("townOne", this.classUnderTest.getName());
+	}
 }

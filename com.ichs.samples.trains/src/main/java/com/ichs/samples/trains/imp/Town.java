@@ -24,26 +24,32 @@ final public class Town implements ITown {
 		this.name = name;
 	}
 
+	@Override
 	public String getName() {
 		return this.name;
 	}
 
+	@Override
 	public List<ITown> getConnectedCitiesFrom() {
 		return this.connectedCitiesFromList;
 	}
 
+	@Override
 	public List<ITown> getConnectedCitiesTo() {
 		return this.connectedCitiesToList;
 	}
 
+	@Override
 	public List<IRoad> getDepartingRoads() {
 		return this.departingRoadList;
 	}
 
+	@Override
 	public List<IRoad> getArrivingRoads() {
 		return this.arrivingRoadList;
 	}
 
+	@Override
 	public void addArrivingRoad(final IRoad arrivingRoad) throws EntityAlreadyExistsException {
 		if (!this.arrivingRoadList.contains(arrivingRoad)) {
 			this.arrivingRoadList.add(arrivingRoad);
@@ -53,6 +59,7 @@ final public class Town implements ITown {
 		}
 	}
 
+	@Override
 	public void addDepartingRoad(final IRoad departingRoad) throws EntityAlreadyExistsException {
 		if (!this.departingRoadList.contains(departingRoad)) {
 			this.departingRoadList.add(departingRoad);
@@ -87,5 +94,10 @@ final public class Town implements ITown {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return this.name;
 	}
 }

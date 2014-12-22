@@ -2,6 +2,7 @@ package com.ichs.samples.trains.imp;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -68,5 +69,14 @@ public class RoadTest {
 		final IRoad secondClass = new Road(this.mockTownOne, this.mockTownTwo,
 				10);
 		assertEquals(firstClass, secondClass);
+	}
+
+	@Test
+	public void testToString() {
+		when(this.mockTownOne.getName()).thenReturn("originTown");
+		when(this.mockTownTwo.getName()).thenReturn("destinationTown");
+		assertEquals(
+				"Origin town: originTown, Destination town: destinationTown, Distance: 5",
+				this.testClass.toString());
 	}
 }
