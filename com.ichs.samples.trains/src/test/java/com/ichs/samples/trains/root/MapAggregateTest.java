@@ -14,7 +14,9 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.ichs.samples.trains.IRoad;
+import com.ichs.samples.trains.IRoute;
 import com.ichs.samples.trains.ITown;
+import com.ichs.samples.trains.imp.CountryMapFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MapAggregateTest {
@@ -28,6 +30,8 @@ public class MapAggregateTest {
 	private final MapAggregate classUnderTest = new MapAggregate();
 	private List<IRoad> roadList;
 	private List<ITown> townList;
+	private static final CountryMapFactory countryMapFactory = CountryMapFactory
+			.getInstance();
 
 	@Before
 	public void setUp() {
@@ -50,6 +54,61 @@ public class MapAggregateTest {
 	}
 
 	@Test
+	public void testGetRoutesStartingEndingC_to_C() throws Exception {
+		final MapAggregate mapInstance = countryMapFactory
+				.createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
+		final List<IRoute> routeList = mapInstance.getRoutesStartingEnding("C",
+				"C", 3);
+		assertEquals(2, routeList.size());
+		// C-D-C, C-E-C-C
+		System.out.println(String.format("Output #6: %d", routeList.size()));
+	}
+
+	@Test
+	public void testGetRoutesStartingEndingExactA_to_C() throws Exception {
+		final MapAggregate mapInstance = countryMapFactory
+				.createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
+		final List<IRoute> routeList = mapInstance
+				.getRoutesStartingEndingExact("A", "C", 4);
+		assertEquals(3, routeList.size());
+		// A-B-C-D-C, A-D-C-D-C, A-D-E-B-C
+		System.out.println(String.format("Output #7: %d", routeList.size()));
+	}
+
+	@Test
+	public void testGetShortestRoutesStartingEndingA_to_C() throws Exception {
+		final MapAggregate mapInstance = countryMapFactory
+				.createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
+		final IRoute route = mapInstance.getShortestRoutesStartingEnding("A",
+				"C");
+		assertEquals(9, route.getDistance(), 0);
+		System.out
+		.println(String.format("Output #8: %.0f", route.getDistance()));
+	}
+
+	@Test
+	public void testGetShortestRoutesStartingEndingB_to_B() throws Exception {
+		final MapAggregate mapInstance = countryMapFactory
+				.createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
+		final IRoute route = mapInstance.getShortestRoutesStartingEnding("B",
+				"B");
+		assertEquals(9, route.getDistance(), 0);
+		System.out
+		.println(String.format("Output #9: %.0f", route.getDistance()));
+	}
+
+	@Test
+	public void testGetRoutesStartingEndingMaxDistanceC_to_C() throws Exception {
+		final MapAggregate mapInstance = countryMapFactory
+				.createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
+		final List<IRoute> routes = mapInstance
+				.getRoutesStartingEndingMaxDistance("C", "C", 30);
+		assertEquals(7, routes.size());
+		// CDC, CEBC, CEBCDC, CDCEBC, CDEBC, CEBCEBC, CEBCEBCEBC
+		System.out.println(String.format("Output #10: %d", routes.size()));
+	}
+
+	@Test
 	public void testSetTownList() {
 		this.classUnderTest.setTownList(this.townList);
 		assertEquals(4, this.classUnderTest.getNumberOfTowns());
@@ -64,77 +123,77 @@ public class MapAggregateTest {
 	}
 
 	@Test
-	public void testGetRoutesStartingEndingExact_correctInput(){
+	public void testGetRoutesStartingEndingExact_correctInput() {
 		fail("not implemented");
 	}
 
 	@Test
-	public void testGetRoutesStartingEndingExact_NotACity(){
+	public void testGetRoutesStartingEndingExact_NotACity() {
 		fail("not implemented");
 	}
 
 	@Test
-	public void testGetRoutesStartingEndingExact_ZeroStop(){
+	public void testGetRoutesStartingEndingExact_ZeroStop() {
 		fail("not implemented");
 	}
 
 	@Test
-	public void testGetRoutesStartingEndingExact_NoRoute(){
+	public void testGetRoutesStartingEndingExact_NoRoute() {
 		fail("not implemented");
 	}
 
 	@Test
-	public void testGetRoutesStartingEnding_correctInput(){
+	public void testGetRoutesStartingEnding_correctInput() {
 		fail("not implemented");
 	}
 
 	@Test
-	public void testGetRoutesStartingEnding_NotACity(){
+	public void testGetRoutesStartingEnding_NotACity() {
 		fail("not implemented");
 	}
 
 	@Test
-	public void testGetRoutesStartingEnding_ZeroMax(){
+	public void testGetRoutesStartingEnding_ZeroMax() {
 		fail("not implemented");
 	}
 
 	@Test
-	public void testGetRoutesStartingEnding_NoRoute(){
+	public void testGetRoutesStartingEnding_NoRoute() {
 		fail("not implemented");
 	}
 
 	@Test
-	public void testGetShortestRoutesStartingEnding_correctInput(){
+	public void testGetShortestRoutesStartingEnding_correctInput() {
 		fail("not implemented");
 	}
 
 	@Test
-	public void testGetShortestRoutesStartingEnding_NotACity(){
+	public void testGetShortestRoutesStartingEnding_NotACity() {
 		fail("not implemented");
 	}
 
 	@Test
-	public void testGetShortestRoutesStartingEnding_NoRoute(){
+	public void testGetShortestRoutesStartingEnding_NoRoute() {
 		fail("not implemented");
 	}
 
 	@Test
-	public void testGetShortestRoutesStartingEndingMaxDistance_correctInput(){
+	public void testGetRoutesStartingEndingMaxDistance_correctInput() {
 		fail("not implemented");
 	}
 
 	@Test
-	public void testGetShortestRoutesStartingEndingMaxDistance_NotACity(){
+	public void testGetRoutesStartingEndingMaxDistance_NotACity() {
 		fail("not implemented");
 	}
 
 	@Test
-	public void testGetShortestRoutesStartingEndingMaxDistance_ZeroDistance(){
+	public void testGetRoutesStartingEndingMaxDistance_ZeroDistance() {
 		fail("not implemented");
 	}
 
 	@Test
-	public void testGetShortestRoutesStartingEndingMaxDistance_NoRoute(){
+	public void testGetRoutesStartingEndingMaxDistance_NoRoute() {
 		fail("not implemented");
 	}
 }

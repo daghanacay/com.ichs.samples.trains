@@ -130,9 +130,9 @@ public class MapAggregate {
 	 *            maximum distance of a road
 	 * @return
 	 */
-	public IRoute getShortestRoutesStartingEndingMaxDistance(final String startTown,
+	public List<IRoute> getRoutesStartingEndingMaxDistance(final String startTown,
 			final String finishTown, final double maxDistance) {
-		return new Route();
+		return new ArrayList<IRoute>();
 	}
 
 }
