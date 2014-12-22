@@ -16,47 +16,55 @@ import com.ichs.samples.trains.ITown;
  */
 @NonNullByDefault
 public class MapAggregate {
-	private List<ITown> townList = new ArrayList<ITown>();
-	private List<IRoad> roadList = new ArrayList<IRoad>();
+  private List<ITown> townList = new ArrayList<ITown>();
+  private List<IRoad> roadList = new ArrayList<IRoad>();
 
-	/**
-	 * Returns the number of cities in this map
-	 *
-	 * @return
-	 */
-	public int getNumberOfCities() {
-		return this.townList.size();
-	}
+  /**
+   * Returns the number of cities in this map
+   *
+   * @return
+   */
+  public int getNumberOfCities() {
+    return this.townList.size();
+  }
 
-	/**
-	 * returns number of roads in this map
-	 *
-	 * @return
-	 */
-	public int getNumberOfRoad() {
-		return this.roadList.size();
-	}
+  /**
+   * returns number of roads in this map
+   *
+   * @return
+   */
+  public int getNumberOfRoad() {
+    return this.roadList.size();
+  }
 
-	/**
-	 * sets the list of towns for this aggregate
-	 *
-	 * @param townList
-	 */
-	public void setTownList(final List<ITown> townList) {
-		this.townList = townList;
-	}
+  /**
+   * sets the list of towns for this aggregate
+   *
+   * @param townList
+   */
+  public void setTownList(final List<ITown> townList) {
+    this.townList = townList;
+  }
 
-	/**
-	 * sets the list of roads
-	 *
-	 * @param roadList
-	 */
-	public void setRoadList(final List<IRoad> roadList) {
-		this.roadList = roadList;
-	}
+  /**
+   * sets the list of roads
+   *
+   * @param roadList
+   */
+  public void setRoadList(final List<IRoad> roadList) {
+    this.roadList = roadList;
+  }
 
-	public List<ITown> getTowns() {
-		return this.townList;
-	}
+  public List<ITown> getTowns() {
+    return this.townList;
+  }
+
+  /**
+   * returns the list of Roads in this map
+   * @return
+   */
+  public List<IRoad> getRoads() {
+    return roadList;
+  }
 
 }
