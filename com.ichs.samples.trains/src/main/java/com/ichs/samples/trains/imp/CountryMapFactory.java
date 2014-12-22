@@ -20,30 +20,35 @@ import com.ichs.samples.trains.root.MapAggregate;
 
 @NonNullByDefault
 public class CountryMapFactory {
-  List<ITown> townList = new ArrayList<ITown>();
-  List<IRoad> roadList = new ArrayList<IRoad>();
-  final static List<String> allowedCityNames = Arrays
-      .asList(new String[] { "A", "B", "C", "D", "E" });
+  private final List<ITown> townList = new ArrayList<ITown>();
+  private final List<IRoad> roadList = new ArrayList<IRoad>();
+  public final static List<String> allowedCityNames = Arrays.asList(new String[] { "A", "B", "C", "D", "E" });
+  private final static CountryMapFactory instance = new CountryMapFactory();
+
+  private CountryMapFactory() {
+  }
+
+  public static CountryMapFactory getInstance() {
+    return instance;
+  }
 
   /**
    *
    * Factory to create domain objects from a string input
    *
    * @param mapString
-   *            map string should be non null or empty and should be separated
-   *            by comma. A proper entry is define as
+   *          map string should be non null or empty and should be separated by comma. A proper entry is define as
    *
-   *            [A-E][A-E][1-9], For example
+   *          [A-E][A-E][1-9], For example
    *
-   *            AB3, BD2
+   *          AB3, BD2
    * @return
    * @throws UnAcceptableInputParameterException
    * @throws LoopingRoadException
    * @throws RepeatedRoadException
    */
-  protected MapAggregate createMap(final String mapString)
-      throws UnAcceptableInputParameterException, LoopingRoadException,
-      RepeatedRoadException {
+  protected MapAggregate createMap(final String mapString) throws UnAcceptableInputParameterException,
+  LoopingRoadException, RepeatedRoadException {
     assert !mapString.isEmpty();
     townList.clear();
     roadList.clear();
@@ -63,18 +68,14 @@ public class CountryMapFactory {
 
       double distance;
       if (Character.isDigit(edgeDef.charAt(2))) {
-        distance = Double.valueOf(String.valueOf(edgeDef.charAt(2)))
-            .doubleValue();
+        distance = Double.valueOf(String.valueOf(edgeDef.charAt(2))).doubleValue();
       } else {
-        throw new UnAcceptableInputParameterException(
-            "Distance is not between 1 and 9 inclusive",
-            ErrorCodeEnum.e1005);
+        throw new UnAcceptableInputParameterException("Distance is not between 1 and 9 inclusive", ErrorCodeEnum.e1005);
       }
 
       if (originTown.equals(destinationTown)) {
-        throw new LoopingRoadException(String.format(
-            "Input %s has the same destination as the origin",
-            edgeDef), ErrorCodeEnum.e1001);
+        throw new LoopingRoadException(String.format("Input %s has the same destination as the origin", edgeDef),
+            ErrorCodeEnum.e1001);
       }
       // Create the road between towns
       final IRoad road = new Road(originTown, destinationTown, distance);
@@ -82,9 +83,7 @@ public class CountryMapFactory {
       if (!this.roadList.contains(road)) {
         this.roadList.add(road);
       } else {
-        throw new RepeatedRoadException(String.format(
-            "Edge %s already exists.", edgeDef),
-            ErrorCodeEnum.e1003);
+        throw new RepeatedRoadException(String.format("Edge %s already exists.", edgeDef), ErrorCodeEnum.e1003);
       }
 
     }
@@ -93,17 +92,13 @@ public class CountryMapFactory {
     return returnVal;
   }
 
-  public void createMap(final File inputFile)
-      throws UnAcceptableInputParameterException, LoopingRoadException,
-      RepeatedRoadException, IOException {
-    final BufferedReader fileReader = new BufferedReader(new FileReader(
-        inputFile));
-    createMap(fileReader.readLine());
-    fileReader.close();
+  public MapAggregate createMap(final File inputFile) throws UnAcceptableInputParameterException, LoopingRoadException,
+  RepeatedRoadException, IOException {
+    final BufferedReader fileReader = new BufferedReader(new FileReader(inputFile));
+    return createMap(fileReader.readLine());
   }
 
-  private ITown createTown(final char townChar)
-      throws UnAcceptableInputParameterException {
+  private ITown createTown(final char townChar) throws UnAcceptableInputParameterException {
     ITown originTown;
     if (Character.isLetter(townChar)) {
       final String origin = String.valueOf(townChar);
@@ -116,16 +111,14 @@ public class CountryMapFactory {
           this.townList.add(originTown);
         }
       } else {
-        throw new UnAcceptableInputParameterException(String.format(
-            "Letter %s is not an acceptable city", origin),
+        throw new UnAcceptableInputParameterException(String.format("Letter %s is not an acceptable city", origin),
             ErrorCodeEnum.e1006);
       }
 
     } else {
-      throw new UnAcceptableInputParameterException(
-          String.format(
-              "First part of input %s is not a letter. Acceptable value is of the form [A-E].",
-              townChar), ErrorCodeEnum.e1002);
+      throw new UnAcceptableInputParameterException(String.format(
+          "First part of input %s is not a letter. Acceptable value is of the form [A-E].", townChar),
+          ErrorCodeEnum.e1002);
     }
     return originTown;
   }
