@@ -24,18 +24,17 @@ public class CountryMapFactoryTest {
 
   @Test
   public void testCreateMap_String_CorrectInput() throws Exception {
-    final MapAggregate result = this.classUnderTest
-        .createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
+    final MapAggregate result = this.classUnderTest.createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
     assertNotNull(result);
     assertEquals(5, result.getNumberOfTowns());
     assertEquals(9, result.getNumberOfRoads());
+    assertEquals(3, result.getTowns().get(0).getConnectedCitiesTo().size());
+    assertEquals(0, result.getTowns().get(0).getConnectedCitiesFrom().size());
   }
 
   @Test
-  public void testCreateMap_String_CorrectInputWithoutSpaces()
-      throws Exception {
-    final MapAggregate result = this.classUnderTest
-        .createMap("AB5,BC4,CD8,DC8,DE6,AD5,CE2, EB3 ,AE7");
+  public void testCreateMap_String_CorrectInputWithoutSpaces() throws Exception {
+    final MapAggregate result = this.classUnderTest.createMap("AB5,BC4,CD8,DC8,DE6,AD5,CE2, EB3 ,AE7");
     assertNotNull(result);
     assertEquals(5, result.getNumberOfTowns());
     assertEquals(9, result.getNumberOfRoads());

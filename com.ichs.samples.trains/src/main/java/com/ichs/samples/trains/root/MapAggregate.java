@@ -9,10 +9,12 @@ import com.ichs.samples.trains.IRoad;
 import com.ichs.samples.trains.IRoute;
 import com.ichs.samples.trains.ITown;
 import com.ichs.samples.trains.exception.ErrorCodeEnum;
+import com.ichs.samples.trains.exception.NoRouteExistsException;
 import com.ichs.samples.trains.exception.TownNotExistException;
 import com.ichs.samples.trains.exception.UnAcceptableInputParameterException;
 import com.ichs.samples.trains.imp.CountryMapFactory;
 import com.ichs.samples.trains.imp.Route;
+import com.ichs.samples.trains.imp.RouteFactory;
 import com.ichs.samples.trains.imp.Town;
 
 /**
@@ -90,8 +92,9 @@ public class MapAggregate {
     if (CountryMapFactory.allowedCityNames.contains(townName)) {
       originTown = new Town(townName);
       final int index = this.townList.indexOf(originTown);
-      if (index<0){
-        throw new TownNotExistException(String.format("Town %s does not exist in the map.",townName), ErrorCodeEnum.e1009);
+      if (index < 0) {
+        throw new TownNotExistException(String.format("Town %s does not exist in the map.", townName),
+            ErrorCodeEnum.e1009);
       }
       originTown = index >= 0 ? this.townList.get(index) : originTown;
     } else {
@@ -112,25 +115,59 @@ public class MapAggregate {
    * @param exactStop
    *          exact number of stops
    * @return
+   * @throws TownNotExistException
+   * @throws UnAcceptableInputParameterException
+   * @throws NoRouteExistsException
    */
-  public List<IRoute> getRoutesStartingEndingExact(final String startTownName, final String finishTownName, final int exactStop) {
+  public List<IRoute> getRoutesStartingEndingExact(final String startTownName, final String finishTownName,
+      final int exactStop) throws UnAcceptableInputParameterException, TownNotExistException, NoRouteExistsException {
     assert !startTownName.isEmpty();
     assert !finishTownName.isEmpty();
     assert exactStop > 0;
 
-    try {
-      final ITown startTown = getTown(startTownName);
-    } catch (final TownNotExistException e) {
-      e.printStackTrace();
-    } catch (final UnAcceptableInputParameterException e) {
-      e.printStackTrace();
+    final ArrayList<IRoute> returnVal = new ArrayList<IRoute>();
+
+    ITown startTown = null;
+    ITown finishTown = null;
+
+    startTown = getTown(startTownName);
+    finishTown = getTown(finishTownName);
+
+    List<String> paths = new ArrayList<String>();
+    paths.add(startTownName);
+    paths = getPath(exactStop - 1, startTown, finishTown, startTownName);
+
+    if (paths.size() == 0) {
+      throw new NoRouteExistsException("No route exists for given input", ErrorCodeEnum.e1008);
     }
 
-    for (int i = 0; i < exactStop; i++) {
-
+    for (final String path : paths) {
+      returnVal.add(RouteFactory.getInstance().createRoute(path, this));
     }
 
-    return new ArrayList<IRoute>();
+    return returnVal;
+  }
+
+  private List<String> getPath(final int exactStop, final ITown startTown, final ITown finishTown, final String path) {
+    assert startTown.getDepartingRoads().size() > 0;
+    final List<String> returnVal = new ArrayList<String>();
+    if (exactStop == 0) {
+      final List<String> tempList = new ArrayList<String>();
+      for (final ITown tmpTown : startTown.getConnectedCitiesTo()) {
+        if (finishTown.equals(tmpTown)) {
+          tempList.add(path + "-" + tmpTown.getName());
+        }
+      }
+      return tempList;
+    } else {
+      final List<String> tempList = new ArrayList<String>();
+      for (final ITown tmpTown : startTown.getConnectedCitiesTo()) {
+        tempList.add(path + tmpTown.getName());
+        returnVal.addAll(getPath(exactStop - 1, tmpTown, finishTown, path + "-" + tmpTown.getName()));
+      }
+    }
+
+    return returnVal;
   }
 
   /**

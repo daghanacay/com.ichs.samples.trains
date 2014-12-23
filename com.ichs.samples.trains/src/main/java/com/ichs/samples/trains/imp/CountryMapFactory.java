@@ -12,6 +12,7 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 
 import com.ichs.samples.trains.IRoad;
 import com.ichs.samples.trains.ITown;
+import com.ichs.samples.trains.exception.EntityAlreadyExistsException;
 import com.ichs.samples.trains.exception.ErrorCodeEnum;
 import com.ichs.samples.trains.exception.LoopingRoadException;
 import com.ichs.samples.trains.exception.RepeatedRoadException;
@@ -81,6 +82,12 @@ public class CountryMapFactory {
       final IRoad road = new Road(originTown, destinationTown, distance);
 
       if (!this.roadList.contains(road)) {
+        try {
+          originTown.addDepartingRoad(road);
+          destinationTown.addArrivingRoad(road);
+        } catch (final EntityAlreadyExistsException e) {
+          throw new RepeatedRoadException(String.format("Edge %s already exists.", edgeDef), ErrorCodeEnum.e1003);
+        }
         this.roadList.add(road);
       } else {
         throw new RepeatedRoadException(String.format("Edge %s already exists.", edgeDef), ErrorCodeEnum.e1003);

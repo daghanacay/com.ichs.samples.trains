@@ -16,6 +16,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.ichs.samples.trains.IRoad;
 import com.ichs.samples.trains.IRoute;
 import com.ichs.samples.trains.ITown;
+import com.ichs.samples.trains.exception.NoRouteExistsException;
+import com.ichs.samples.trains.exception.TownNotExistException;
+import com.ichs.samples.trains.exception.UnAcceptableInputParameterException;
 import com.ichs.samples.trains.imp.CountryMapFactory;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -30,8 +33,7 @@ public class MapAggregateTest {
   private final MapAggregate classUnderTest = new MapAggregate();
   private List<IRoad> roadList;
   private List<ITown> townList;
-  private static final CountryMapFactory countryMapFactory = CountryMapFactory
-      .getInstance();
+  private static final CountryMapFactory countryMapFactory = CountryMapFactory.getInstance();
 
   @Before
   public void setUp() {
@@ -55,10 +57,8 @@ public class MapAggregateTest {
 
   @Test
   public void testGetRoutesStartingEndingC_to_C() throws Exception {
-    final MapAggregate mapInstance = countryMapFactory
-        .createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
-    final List<IRoute> routeList = mapInstance.getRoutesStartingEnding("C",
-        "C", 3);
+    final MapAggregate mapInstance = countryMapFactory.createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
+    final List<IRoute> routeList = mapInstance.getRoutesStartingEnding("C", "C", 3);
     assertEquals(2, routeList.size());
     // C-D-C, C-E-C-C
     System.out.println(String.format("Output #6: %d", routeList.size()));
@@ -66,10 +66,8 @@ public class MapAggregateTest {
 
   @Test
   public void testGetRoutesStartingEndingExactA_to_C() throws Exception {
-    final MapAggregate mapInstance = countryMapFactory
-        .createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
-    final List<IRoute> routeList = mapInstance
-        .getRoutesStartingEndingExact("A", "C", 4);
+    final MapAggregate mapInstance = countryMapFactory.createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
+    final List<IRoute> routeList = mapInstance.getRoutesStartingEndingExact("A", "C", 4);
     assertEquals(3, routeList.size());
     // A-B-C-D-C, A-D-C-D-C, A-D-E-B-C
     System.out.println(String.format("Output #7: %d", routeList.size()));
@@ -77,32 +75,24 @@ public class MapAggregateTest {
 
   @Test
   public void testGetShortestRoutesStartingEndingA_to_C() throws Exception {
-    final MapAggregate mapInstance = countryMapFactory
-        .createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
-    final IRoute route = mapInstance.getShortestRoutesStartingEnding("A",
-        "C");
+    final MapAggregate mapInstance = countryMapFactory.createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
+    final IRoute route = mapInstance.getShortestRoutesStartingEnding("A", "C");
     assertEquals(9, route.getDistance(), 0);
-    System.out
-    .println(String.format("Output #8: %.0f", route.getDistance()));
+    System.out.println(String.format("Output #8: %.0f", route.getDistance()));
   }
 
   @Test
   public void testGetShortestRoutesStartingEndingB_to_B() throws Exception {
-    final MapAggregate mapInstance = countryMapFactory
-        .createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
-    final IRoute route = mapInstance.getShortestRoutesStartingEnding("B",
-        "B");
+    final MapAggregate mapInstance = countryMapFactory.createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
+    final IRoute route = mapInstance.getShortestRoutesStartingEnding("B", "B");
     assertEquals(9, route.getDistance(), 0);
-    System.out
-    .println(String.format("Output #9: %.0f", route.getDistance()));
+    System.out.println(String.format("Output #9: %.0f", route.getDistance()));
   }
 
   @Test
   public void testGetRoutesStartingEndingMaxDistanceC_to_C() throws Exception {
-    final MapAggregate mapInstance = countryMapFactory
-        .createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
-    final List<IRoute> routes = mapInstance
-        .getRoutesStartingEndingMaxDistance("C", "C", 30);
+    final MapAggregate mapInstance = countryMapFactory.createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
+    final List<IRoute> routes = mapInstance.getRoutesStartingEndingMaxDistance("C", "C", 30);
     assertEquals(7, routes.size());
     // CDC, CEBC, CEBCDC, CDCEBC, CDEBC, CEBCEBC, CEBCEBCEBC
     System.out.println(String.format("Output #10: %d", routes.size()));
@@ -123,43 +113,54 @@ public class MapAggregateTest {
   }
 
   @Test
-  public void testGetTown_exist(){
+  public void testGetTown_exist() {
     fail("not implemented Exception");
   }
 
   @Test
-  public void testGetTown_notExist(){
+  public void testGetTown_notExist() {
     fail("not implemented Exception");
   }
 
   @Test
-  public void testGetTown_EmptyName(){
+  public void testGetTown_EmptyName() {
     fail("not implemented Exception");
   }
 
   @Test
-  public void testGetTown_NotAllowedName(){
+  public void testGetTown_NotAllowedName() {
     fail("not implemented Exception");
   }
 
   @Test
-  public void testGetRoutesStartingEndingExact_correctInput() {
-    fail("not implemented");
+  public void testGetRoutesStartingEndingExact_correctInput() throws Exception {
+    final MapAggregate mapInstance = countryMapFactory.createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
+    final List<IRoute> routeList = mapInstance.getRoutesStartingEndingExact("A", "B", 1);
+    assertEquals(1, routeList.size());
   }
 
-  @Test
-  public void testGetRoutesStartingEndingExact_NotACity() {
-    fail("not implemented");
+  @Test(expected = TownNotExistException.class)
+  public void testGetRoutesStartingEndingExact_NotACity() throws Exception {
+    final MapAggregate mapInstance = countryMapFactory.createMap("AB5, BC4");
+    mapInstance.getRoutesStartingEndingExact("A", "E", 1);
   }
 
-  @Test
-  public void testGetRoutesStartingEndingExact_ZeroStop() {
-    fail("not implemented");
+  @Test(expected = UnAcceptableInputParameterException.class)
+  public void testGetRoutesStartingEndingExact_NotAProperCity() throws Exception {
+    final MapAggregate mapInstance = countryMapFactory.createMap("AB5, BC4");
+    mapInstance.getRoutesStartingEndingExact("A", "K", 1);
   }
 
-  @Test
-  public void testGetRoutesStartingEndingExact_NoRoute() {
-    fail("not implemented");
+  @Test(expected = AssertionError.class)
+  public void testGetRoutesStartingEndingExact_ZeroStop() throws Exception {
+    final MapAggregate mapInstance = countryMapFactory.createMap("AB5, BC4");
+    mapInstance.getRoutesStartingEndingExact("A", "C", 0);
+  }
+
+  @Test(expected = NoRouteExistsException.class)
+  public void testGetRoutesStartingEndingExact_NoRoute() throws Exception {
+    final MapAggregate mapInstance = countryMapFactory.createMap("AB5, BC4, AD3");
+    mapInstance.getRoutesStartingEndingExact("B", "D", 2);
   }
 
   @Test
