@@ -30,6 +30,7 @@ public class RouteTest {
 
 	IRoute classUnderTest = new Route();
 
+	@SuppressWarnings("serial")
 	@Before
 	public void setUp() {
 		when(this.mockTown1.getName()).thenReturn("A");
@@ -59,6 +60,7 @@ public class RouteTest {
 		};
 	}
 
+	@SuppressWarnings("null")
 	@Test
 	public void testAddTowns() {
 		this.classUnderTest.addTowns(this.townList);
@@ -66,12 +68,14 @@ public class RouteTest {
 		assertTrue(this.classUnderTest.getTowns().contains(this.mockTown1));
 	}
 
+	@SuppressWarnings("null")
 	@Test(expected = UnsupportedOperationException.class)
 	public void testChangeTownList() {
 		this.classUnderTest.addTowns(this.townList);
 		this.classUnderTest.getTowns().add(this.mockTown5);
 	}
 
+	@SuppressWarnings("null")
 	@Test
 	public void testAddRoads() {
 		this.classUnderTest.addRoads(this.roadList);
@@ -79,18 +83,21 @@ public class RouteTest {
 		assertTrue(this.classUnderTest.getRoads().contains(this.mockRoad1));
 	}
 
+	@SuppressWarnings("null")
 	@Test(expected = UnsupportedOperationException.class)
 	public void testChangeRoadsList() {
 		this.classUnderTest.addRoads(this.roadList);
 		this.classUnderTest.getRoads().add(this.mockRoad4);
 	}
 
+	@SuppressWarnings("null")
 	@Test
 	public void testDistance() {
 		this.classUnderTest.addRoads(this.roadList);
 		assertEquals(this.classUnderTest.getDistance(), 15D, 0);
 	}
 
+	@SuppressWarnings("null")
 	@Test
 	public void testToString() {
 		this.classUnderTest.addTowns(this.townList);

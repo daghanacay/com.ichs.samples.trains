@@ -36,6 +36,7 @@ public class MapAggregateTest {
 	private static final CountryMapFactory countryMapFactory = CountryMapFactory
 			.getInstance();
 
+	@SuppressWarnings("serial")
 	@Before
 	public void setUp() {
 		this.townList = new ArrayList<ITown>() {
@@ -111,6 +112,7 @@ public class MapAggregateTest {
 		System.out.println(String.format("Output #10: %d", routes.size()));
 	}
 
+	@SuppressWarnings("null")
 	@Test
 	public void testSetTownList() {
 		this.classUnderTest.setTownList(this.townList);
@@ -118,6 +120,7 @@ public class MapAggregateTest {
 		assertTrue(this.classUnderTest.getTowns().contains(this.mockTown1));
 	}
 
+	@SuppressWarnings("null")
 	@Test
 	public void testSetRoadList() {
 		this.classUnderTest.setRoadList(this.roadList);
@@ -265,8 +268,7 @@ public class MapAggregateTest {
 	public void testGetShortestRoutesStartingEnding_NoRoute() throws Exception {
 		final MapAggregate mapInstance = countryMapFactory
 				.createMap("AB5, BC4, CD8, AD5");
-		final IRoute route = mapInstance.getShortestRoutesStartingEnding("D",
-				"A");
+		mapInstance.getShortestRoutesStartingEnding("D", "A");
 	}
 
 	@Test
@@ -284,8 +286,7 @@ public class MapAggregateTest {
 			throws Exception {
 		final MapAggregate mapInstance = countryMapFactory
 				.createMap("AB5, BC4");
-		final List<IRoute> routes = mapInstance
-				.getRoutesStartingEndingMaxDistance("B", "D", 14);
+		mapInstance.getRoutesStartingEndingMaxDistance("B", "D", 14);
 	}
 
 	@Test(expected = AssertionError.class)
@@ -293,8 +294,7 @@ public class MapAggregateTest {
 			throws Exception {
 		final MapAggregate mapInstance = countryMapFactory
 				.createMap("AB5, BC4");
-		final List<IRoute> routes = mapInstance
-				.getRoutesStartingEndingMaxDistance("B", "C", 0);
+		mapInstance.getRoutesStartingEndingMaxDistance("B", "C", 0);
 	}
 
 	@Test(expected = NoRouteExistsException.class)
@@ -302,7 +302,6 @@ public class MapAggregateTest {
 			throws Exception {
 		final MapAggregate mapInstance = countryMapFactory
 				.createMap("AB5, BC4");
-		final List<IRoute> routes = mapInstance
-				.getRoutesStartingEndingMaxDistance("B", "C", 3);
+		mapInstance.getRoutesStartingEndingMaxDistance("B", "C", 3);
 	}
 }

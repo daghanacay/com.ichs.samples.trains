@@ -13,59 +13,61 @@ import com.ichs.samples.trains.ITown;
 
 @NonNullByDefault
 final public class Route implements IRoute {
-	private List<ITown> unmodifiableTownList = new ArrayList<ITown>();
-	private List<IRoad> unmodifiableRoadList = new ArrayList<IRoad>();
-	private double distance = 0;
-	private String stringVal = "";
+    private List<ITown> unmodifiableTownList = new ArrayList<ITown>();
+    private List<IRoad> unmodifiableRoadList = new ArrayList<IRoad>();
+    private double distance = 0;
+    private String stringVal = "";
 
-	@Override
-	public void addTowns(final List<ITown> townList) {
-		final StringBuilder strBuilder = new StringBuilder();
-		this.unmodifiableTownList = Collections.unmodifiableList(townList);
-		for (final ITown tmpTown : this.unmodifiableTownList) {
-			strBuilder.append(tmpTown.getName()).append("-");
-		}
-		strBuilder.reverse().replace(0, 1, "").reverse();
-		this.stringVal = strBuilder.toString();
-	}
+    @SuppressWarnings("null")
+    @Override
+    public void addTowns(final List<ITown> townList) {
+        final StringBuilder strBuilder = new StringBuilder();
+        this.unmodifiableTownList = Collections.unmodifiableList(townList);
+        for (final ITown tmpTown : this.unmodifiableTownList) {
+            strBuilder.append(tmpTown.getName()).append("-");
+        }
+        strBuilder.reverse().replace(0, 1, "").reverse();
+        this.stringVal = strBuilder.toString();
+    }
 
-	@Override
-	public List<ITown> getTowns() {
-		return this.unmodifiableTownList;
-	}
+    @Override
+    public List<ITown> getTowns() {
+        return this.unmodifiableTownList;
+    }
 
-	@Override
-	public void addRoads(final List<IRoad> roadList) {
-		this.unmodifiableRoadList = Collections.unmodifiableList(roadList);
-		// calculate the distance for once and for all
-		for (final IRoad tmpRoad : this.unmodifiableRoadList) {
-			this.distance += tmpRoad.getDistance();
-		}
-	}
+    @SuppressWarnings("null")
+    @Override
+    public void addRoads(final List<IRoad> roadList) {
+        this.unmodifiableRoadList = Collections.unmodifiableList(roadList);
+        // calculate the distance for once and for all
+        for (final IRoad tmpRoad : this.unmodifiableRoadList) {
+            this.distance += tmpRoad.getDistance();
+        }
+    }
 
-	@Override
-	public List<IRoad> getRoads() {
-		return this.unmodifiableRoadList;
-	}
+    @Override
+    public List<IRoad> getRoads() {
+        return this.unmodifiableRoadList;
+    }
 
-	@Override
-	public double getDistance() {
-		return this.distance;
-	}
+    @Override
+    public double getDistance() {
+        return this.distance;
+    }
 
-	@Override
-	public String toString() {
-		return this.stringVal + " Distance: " + this.distance;
-	}
+    @Override
+    public String toString() {
+        return this.stringVal + " Distance: " + this.distance;
+    }
 
-	@Override
-	public int compareTo(@Nullable final IRoute other) {
-		if (other == null) {
-			//if other object is null then this is always bigger
-			return 1;
-		} else {
-			return Double.valueOf(this.distance).compareTo(other.getDistance());
-		}
-	}
+    @Override
+    public int compareTo(@Nullable final IRoute other) {
+        if (other == null) {
+            // if other object is null then this is always bigger
+            return 1;
+        } else {
+            return Double.valueOf(this.distance).compareTo(other.getDistance());
+        }
+    }
 
 }
