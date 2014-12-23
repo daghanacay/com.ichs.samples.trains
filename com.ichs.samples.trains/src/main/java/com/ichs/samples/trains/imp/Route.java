@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 
 import com.ichs.samples.trains.IRoad;
 import com.ichs.samples.trains.IRoute;
@@ -55,6 +56,16 @@ final public class Route implements IRoute {
 	@Override
 	public String toString() {
 		return this.stringVal + " Distance: " + this.distance;
+	}
+
+	@Override
+	public int compareTo(@Nullable final IRoute other) {
+		if (other == null) {
+			//if other object is null then this is always bigger
+			return 1;
+		} else {
+			return Double.valueOf(this.distance).compareTo(other.getDistance());
+		}
 	}
 
 }

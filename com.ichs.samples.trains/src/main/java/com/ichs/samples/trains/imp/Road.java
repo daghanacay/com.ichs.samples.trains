@@ -12,7 +12,7 @@ final public class Road implements IRoad {
 	private final ITown originTown, destinationTown;
 	private final double distance;
 
-	protected Road(final ITown originTown, final ITown destinationTown,
+	public Road(final ITown originTown, final ITown destinationTown,
 			final double distance) {
 		this.originTown = originTown;
 		this.destinationTown = destinationTown;
