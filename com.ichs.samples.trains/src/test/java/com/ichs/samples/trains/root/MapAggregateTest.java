@@ -3,7 +3,6 @@ package com.ichs.samples.trains.root;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,22 +151,25 @@ public class MapAggregateTest {
 
 	@Test
 	public void testGetRoad_exist() throws Exception {
-		fail("Not implemented");
-	}
-
-	@Test(expected = TownNotExistException.class)
-	public void testGetRoad_notExist() throws Exception {
-		fail("Not implemented");
+		final MapAggregate mapInstance = countryMapFactory.createMap("AB5");
+		mapInstance.getRoad("A", "B");
 	}
 
 	@Test(expected = AssertionError.class)
 	public void testGetRoad_EmptyName() throws Exception {
-		fail("Not implemented");
+		this.classUnderTest.getRoad("A", "");
 	}
 
 	@Test(expected = UnAcceptableInputParameterException.class)
 	public void testGetRoad_NotAllowedName() throws Exception {
-		fail("Not implemented");
+		final MapAggregate mapInstance = countryMapFactory.createMap("AB5");
+		mapInstance.getRoad("A", "N");
+	}
+
+	@Test(expected = TownNotExistException.class)
+	public void testGetRoad_NotExistTown() throws Exception {
+		final MapAggregate mapInstance = countryMapFactory.createMap("AB5");
+		mapInstance.getRoad("A", "C");
 	}
 
 	@Test
@@ -241,37 +243,66 @@ public class MapAggregateTest {
 	}
 
 	@Test
-	public void testGetShortestRoutesStartingEnding_correctInput() {
-		fail("not implemented");
+	public void testGetShortestRoutesStartingEnding_correctInput()
+			throws Exception {
+		final MapAggregate mapInstance = countryMapFactory
+				.createMap("AB5, BC4, CD8, AD5");
+		final IRoute route = mapInstance.getShortestRoutesStartingEnding("A",
+				"D");
+		assertEquals(5, route.getDistance(), 0);
+	}
+
+	@Test(expected = TownNotExistException.class)
+	public void testGetShortestRoutesStartingEnding_NotACity() throws Exception {
+		final MapAggregate mapInstance = countryMapFactory
+				.createMap("AB5, BC4, CD8, AD5");
+		final IRoute route = mapInstance.getShortestRoutesStartingEnding("A",
+				"E");
+		assertEquals(5, route.getDistance(), 0);
+	}
+
+	@Test(expected = NoRouteExistsException.class)
+	public void testGetShortestRoutesStartingEnding_NoRoute() throws Exception {
+		final MapAggregate mapInstance = countryMapFactory
+				.createMap("AB5, BC4, CD8, AD5");
+		final IRoute route = mapInstance.getShortestRoutesStartingEnding("D",
+				"A");
 	}
 
 	@Test
-	public void testGetShortestRoutesStartingEnding_NotACity() {
-		fail("not implemented");
+	public void testGetRoutesStartingEndingMaxDistance_correctInput()
+			throws Exception {
+		final MapAggregate mapInstance = countryMapFactory
+				.createMap("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7");
+		final List<IRoute> routes = mapInstance
+				.getRoutesStartingEndingMaxDistance("B", "C", 14);
+		assertEquals(2, routes.size());
 	}
 
-	@Test
-	public void testGetShortestRoutesStartingEnding_NoRoute() {
-		fail("not implemented");
+	@Test(expected = TownNotExistException.class)
+	public void testGetRoutesStartingEndingMaxDistance_NotACity()
+			throws Exception {
+		final MapAggregate mapInstance = countryMapFactory
+				.createMap("AB5, BC4");
+		final List<IRoute> routes = mapInstance
+				.getRoutesStartingEndingMaxDistance("B", "D", 14);
 	}
 
-	@Test
-	public void testGetRoutesStartingEndingMaxDistance_correctInput() {
-		fail("not implemented");
+	@Test(expected = AssertionError.class)
+	public void testGetRoutesStartingEndingMaxDistance_ZeroDistance()
+			throws Exception {
+		final MapAggregate mapInstance = countryMapFactory
+				.createMap("AB5, BC4");
+		final List<IRoute> routes = mapInstance
+				.getRoutesStartingEndingMaxDistance("B", "C", 0);
 	}
 
-	@Test
-	public void testGetRoutesStartingEndingMaxDistance_NotACity() {
-		fail("not implemented");
-	}
-
-	@Test
-	public void testGetRoutesStartingEndingMaxDistance_ZeroDistance() {
-		fail("not implemented");
-	}
-
-	@Test
-	public void testGetRoutesStartingEndingMaxDistance_NoRoute() {
-		fail("not implemented");
+	@Test(expected = NoRouteExistsException.class)
+	public void testGetRoutesStartingEndingMaxDistance_NoRoute()
+			throws Exception {
+		final MapAggregate mapInstance = countryMapFactory
+				.createMap("AB5, BC4");
+		final List<IRoute> routes = mapInstance
+				.getRoutesStartingEndingMaxDistance("B", "C", 3);
 	}
 }

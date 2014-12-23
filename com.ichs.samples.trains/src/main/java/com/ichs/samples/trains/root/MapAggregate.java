@@ -103,7 +103,7 @@ public class MapAggregate {
 			originTown = index >= 0 ? this.townList.get(index) : originTown;
 		} else {
 			throw new UnAcceptableInputParameterException(String.format(
-					"Letter %s is not an acceptable city", originTown),
+					"Letter %s is not an acceptable city", townName),
 					ErrorCodeEnum.e1006);
 		}
 		return originTown;

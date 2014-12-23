@@ -39,7 +39,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.2</version>
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
@@ -50,6 +49,13 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<enableAssertions>true</enableAssertions>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.ichs.samples.trains.root.MainClass</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
